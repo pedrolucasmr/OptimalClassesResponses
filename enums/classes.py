@@ -1,7 +1,20 @@
-from enum import Enum
+from enum import Enum, EnumMeta
 
 
-class Classes(Enum):
+class MetaEnum(EnumMeta):
+    def __contains__(cls, item):
+        try:
+            cls(item)
+        except ValueError:
+            return False
+        return True
+
+
+class BaseEnum(Enum, metaclass=MetaEnum):
+    pass
+
+
+class Classes(BaseEnum):
     BARBARIAN = "barbarian"
     BARD = "bard"
     CLERIC = "cleric"
